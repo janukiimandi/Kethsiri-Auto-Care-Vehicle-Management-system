@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<!-- My CSS -->
+	<link rel="stylesheet" href="style.css">
+
+	<title>AdminHub</title>
+</head>
+<body>
+
+
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="#" class="brand">
+			<i class='bx bxs-smile'></i>
+			<span class="text">AdminHub</span>
+		</a>
+		<ul class="side-menu top">
+			<li class="active">
+				<a href="#">
+					<i class='bx bxs-dashboard' ></i>
+					<span class="text">Dashboard</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-shopping-bag-alt' ></i>
+					<span class="text">My Store</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-doughnut-chart' ></i>
+					<span class="text">Analytics</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-message-dots' ></i>
+					<span class="text">Message</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<i class='bx bxs-group' ></i>
+					<span class="text">Team</span>
+				</a>
+			</li>
+		</ul>
+		<ul class="side-menu">
+			<li>
+				<a href="#">
+					<i class='bx bxs-cog' ></i>
+					<span class="text">Settings</span>
+				</a>
+			</li>
+			<li>
+				<a href="#" class="logout">
+					<i class='bx bxs-log-out-circle' ></i>
+					<span class="text">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</section>
+	<!-- SIDEBAR -->
+
+
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu' ></i>
+			<a href="#" class="nav-link">Categories</a>
+			<form action="#">
+				<div class="form-input">
+					<input type="search" placeholder="Search...">
+					<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+				</div>
+			</form>
+			<input type="checkbox" id="switch-mode" hidden>
+			<label for="switch-mode" class="switch-mode"></label>
+			<a href="#" class="notification">
+				<i class='bx bxs-bell' ></i>
+				<span class="num">8</span>
+			</a>
+			<a href="#" class="profile">
+				<img src="img/people.png">
+			</a>
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<div class="head-title">
+				<div class="left">
+					<h1>Dashboard</h1>
+					<ul class="breadcrumb">
+						<li>
+							<a href="#">Dashboard</a>
+						</li>
+						<li><i class='bx bx-chevron-right' ></i></li>
+						<li>
+							<a class="active" href="#">Home</a>
+						</li>
+					</ul>
+				</div>
+				<a href="#" id="downloadPDF" class="btn-download">
+					<i class='bx bxs-cloud-download'></i>
+					<span class="text">Download PDF</span>
+				</a>
+
+			</div>
+
+			<script>
+				document.getElementById('downloadPDF').addEventListener('click', function() {
+                    const doc = new jsPDF();
+
+                    // Define content for the PDF
+                    const content = `
+                        <h1>Dashboard Details</h1>
+                        <p>Order Count: ${document.getElementById('orderCount').innerText}</p>
+                        <p>Member Order Count: ${document.getElementById('memberorderCount').innerText}</p>
+                        <p>Member Count: ${document.getElementById('memberCount').innerText}</p>
+                        <!-- Add more content here as needed -->
+                    `;
+
+                    // Add content to the PDF
+                    doc.html(content, {
+                        callback: function (doc) {
+                            // Save the PDF with a specific name
+                            doc.save('dashboard_details.pdf');
+                        }
+                    });
+                });
+			</script>
+
+			<ul class="box-info">
+				<li>
+					<i class='bx bxs-calendar-check'></i>
+					<span class="text">
+            <h3 id="memberorderCount">Loading...</h3>
+            <p>New Member Order</p>
+        </span>
+				</li>
+				<li>
+					<i class='bx bxs-calendar-check'></i>
+					<span class="text">
+            <h3 id="orderCount">Loading...</h3>
+            <p>New Non-Member Order</p>
+        </span>
+				</li>
+				<li>
+					<i class='bx bxs-group' ></i>
+					<span class="text">
+            <h3 id="memberCount">Loading...</h3>
+            <p>Members</p>
+        </span>
+				</li>
+				<li>
+					<div class="sales-box">
+						<i class='bx bxs-dollar-circle' ></i>
+						<span class="text">
+                            <h3>2543</h3> <!-- Total sales amount -->
+                              <p>Total Sales</p>
+        </span>
+					</div>
+				</li>
+
+			</ul>
+
+
+			<script>
+				// Fetch order count from the /order-count endpoint
+                fetch('/order-count')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the order count in the HTML
+                        document.getElementById('orderCount').innerText = data;
+                    })
+                    .catch(error => console.error('Error fetching order count:', error));
+			</script>
+			<script>
+				// Fetch order count from the /order-count endpoint
+                fetch('/memberorder-count')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the order count in the HTML
+                        document.getElementById('memberorderCount').innerText = data;
+                    })
+                    .catch(error => console.error('Error fetching order count:', error));
+			</script>
+			<script>
+				// Fetch member count from the /students/membercount endpoint
+                fetch('/students/membercount')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the member count in the HTML
+                        document.getElementById('memberCount').innerText = data;
+                    })
+                    .catch(error => console.error('Error fetching member count:', error));
+			</script>
+
+			<style>
+				.table-data {
+                    margin-top: 20px;
+                }
+
+                .order {
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    overflow: hidden;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                th, td {
+                    padding: 10px;
+                    text-align: left;
+                    border-right: 1px solid #ddd; /* Add border to divide columns */
+                }
+
+                th:last-child, td:last-child {
+                    border-right: none; /* Remove border for last column */
+                }
+
+                th {
+                    background-color: #f2f2f2;
+                    border-bottom: 2px solid #ddd;
+                }
+
+                td {
+                    border-bottom: 1px solid #ddd;
+                }
+
+                tr:last-child td {
+                    border-bottom: none;
+                }
+
+                tr:hover {
+                    background-color: #f2f2f2;
+                }
+			</style>
+
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Recent Member Appointments</h3>
+					</div>
+					<table>
+						<thead>
+						<tr>
+							<th>Booking ID</th>
+							<th>Name</th>
+							<th>Email</th>
+							<th>Service</th>
+							<th>Date</th>
+							<th>Special Request</th>
+							<th>Action</th> <!-- Add this column for action -->
+						</tr>
+						</thead>
+						<tbody id="appointment-table-body">
+						<!-- Appointment data will be dynamically added here -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<script>
+				fetch('/getappointments')
+                    .then(response => response.json())
+                    .then(appointments => {
+                        const appointmentTableBody = document.getElementById('appointment-table-body');
+
+                        appointments.forEach(appointment => {
+                            const row = document.createElement('tr');
+
+                            const bookingIdCell = document.createElement('td');
+                            bookingIdCell.textContent = appointment.bookingId; // Display booking ID
+                            row.appendChild(bookingIdCell);
+
+                            const nameCell = document.createElement('td');
+                            nameCell.textContent = appointment.name;
+                            row.appendChild(nameCell);
+
+                            const emailCell = document.createElement('td');
+                            emailCell.textContent = appointment.email;
+                            row.appendChild(emailCell);
+
+                            const serviceCell = document.createElement('td');
+                            serviceCell.textContent = appointment.service;
+                            row.appendChild(serviceCell);
+
+                            const dateCell = document.createElement('td');
+                            const formattedDate = new Date(appointment.serviceDatetime).toLocaleString();
+                            dateCell.textContent = formattedDate;
+                            row.appendChild(dateCell);
+
+                            const specialRequestCell = document.createElement('td');
+                            specialRequestCell.textContent = appointment.specialRequest;
+                            row.appendChild(specialRequestCell);
+
+                            const actionCell = document.createElement('td');
+                            const actionLink = document.createElement('a');
+                            actionLink.href = `/getappointments/${appointment.bookingId}/action`; // Assuming 'bookingId' is used for action URL
+                            actionLink.textContent = "Take Action";
+                            actionCell.appendChild(actionLink);
+                            row.appendChild(actionCell);
+
+                            appointmentTableBody.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching appointments:', error);
+                    });
+			</script>
+
+
+
+
+			<style>
+				.table-data {
+                    margin-top: 20px;
+                }
+
+                .order {
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    overflow: hidden;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                th, td {
+                    padding: 10px;
+                    text-align: left;
+                    border-right: 1px solid #ddd; /* Add border to divide columns */
+                }
+
+                th:last-child, td:last-child {
+                    border-right: none; /* Remove border for last column */
+                }
+
+                th {
+                    background-color: #f2f2f2;
+                    border-bottom: 2px solid #ddd;
+                }
+
+                td {
+                    border-bottom: 1px solid #ddd;
+                }
+
+                tr:last-child td {
+                    border-bottom: none;
+                }
+
+                tr:hover {
+                    background-color: #f2f2f2;
+                }
+			</style>
+
+			<div class="table-data">
+				<div class="order">
+					<div class="head">
+						<h3>Recent Non-Member Appointments</h3>
+					</div>
+					<table>
+						<thead>
+						<tr>
+							<th>Booking ID</th>
+							<th>Name</th>
+							<th>Email</th>
+							<th>Service</th>
+							<th>Date</th>
+							<th>Special Request</th>
+							<th>Action</th> <!-- Add this column for action -->
+						</tr>
+						</thead>
+						<tbody id="appointment-nonmembertable-body">
+						<!-- Appointment data will be dynamically added here -->
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<script>
+				fetch('/getnonmemberappointments')
+                    .then(response => response.json())
+                    .then(appointments => {
+                        const appointmentTableBody = document.getElementById('appointment-nonmembertable-body'); // Corrected ID
+
+                        appointments.forEach(appointment => {
+                            const row = document.createElement('tr');
+
+                            const bookingIdCell = document.createElement('td');
+                            bookingIdCell.textContent = appointment.booking_ID; // Display booking ID
+                            row.appendChild(bookingIdCell);
+
+                            const nameCell = document.createElement('td');
+                            nameCell.textContent = appointment.name;
+                            row.appendChild(nameCell);
+
+                            const emailCell = document.createElement('td');
+                            emailCell.textContent = appointment.email;
+                            row.appendChild(emailCell);
+
+                            const serviceCell = document.createElement('td');
+                            serviceCell.textContent = appointment.service;
+                            row.appendChild(serviceCell);
+
+                            const dateCell = document.createElement('td');
+                            const formattedDate = new Date(appointment.service_datetime).toLocaleString();
+                            dateCell.textContent = formattedDate;
+                            row.appendChild(dateCell);
+
+                            const specialRequestCell = document.createElement('td');
+                            specialRequestCell.textContent = appointment.special_request;
+                            row.appendChild(specialRequestCell);
+
+                            const actionCell = document.createElement('td');
+                            const actionLink = document.createElement('a');
+                            actionLink.href = `/getnonmemberappointments/${appointment.booking_ID}/action`; // Assuming 'bookingId' is used for action URL
+                            actionLink.textContent = "Take Action";
+                            actionCell.appendChild(actionLink);
+                            row.appendChild(actionCell);
+
+                            appointmentTableBody.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching appointments:', error);
+                    });
+			</script>
+
+
+
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- CONTENT -->
+	
+
+	<script src="script.js"></script>
+	<script src="pdf.js"></script>
+
+</body>
+</html>

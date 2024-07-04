@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            font-family: Arial, sans-serif; /* Added font-family for better readability */
+        }
+
+        .dashboard {
+            background-color: #5e057e;
+            color: #fff;
+            padding: 40px;
+            text-align: center;
+            flex-basis: 60%; /* Adjusted width for the dashboard */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin-right: 20px; /* Added margin to separate from sidebar */
+        }
+
+        .dashboard__title {
+            font-size: 32px; /* Increased font size */
+            margin-top: 0;
+            margin-bottom: 20px; /* Added margin bottom for spacing */
+        }
+
+        .dashboard__user {
+            margin-top: 20px;
+        }
+
+        .dashboard__user-name {
+            font-size: 24px; /* Adjusted font size */
+            color: #c299d0;
+        }
+
+        .sidebar {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex-basis: 30%; /* Adjusted width for the sidebar */
+            border-radius: 10px;
+            margin-left: 20px; /* Added margin to separate from dashboard */
+        }
+
+        .sidebar a {
+            display: block;
+            color: #333;
+            margin-bottom: 15px; /* Increased margin bottom for spacing */
+            text-decoration: none;
+            font-size: 18px; /* Increased font size */
+            transition: color 0.3s; /* Added transition for smoother hover effect */
+        }
+
+        .sidebar a i {
+            margin-right: 10px; /* Increased margin right for spacing */
+            font-size: 24px; /* Adjusted font size */
+        }
+
+        .sidebar a:hover {
+            color: #5e057e; /* Changed hover color */
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <h1 class="dashboard__title">Welcome to the Dashboard</h1>
+    <div class="dashboard__user">
+        <h2 th:text="${userdetail.fullname}" class="dashboard__user-name">User's Name</h2>
+    </div>
+</div>
+
+<div class="sidebar">
+    <div class="booking-link">
+        <a th:href="@{/appointment}"><i class='bx bx-calendar-plus'></i> Book an Appointment</a> <!-- Replaced font awesome icon with Boxicons icon -->
+    </div>
+
+    <div class="update_profile">
+        <a th:href="@{/profile/update}"><i class='bx bx-user'></i> Update Profile</a> <!-- Replaced font awesome icon with Boxicons icon -->
+    </div>
+
+    <span sec:authorize="isAuthenticated">
+        <a th:href="@{/logout}"><i class='bx bx-log-out'></i> Logout</a> <!-- Replaced font awesome icon with Boxicons icon -->
+    </span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Booking</title>
+  <style>
+    body {
+      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+    }
+
+    .booking-form {
+      background-color: #ffffff;
+      color: #000000;
+      padding: 40px;
+      text-align: left;
+      margin: 100px auto 20px auto;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .booking-form__title {
+      font-size: 24px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .booking-form__input {
+      margin-bottom: 20px;
+      padding: 10px;
+      width: calc(100% - 20px);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .booking-form__input:focus {
+      outline: none;
+      border-color: #66afe9;
+    }
+
+    .booking-form__select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      background-image: linear-gradient(to bottom, #f9f9f9, #e9e9e9);
+    }
+
+    .booking-form__submit {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .booking-form__submit:hover {
+      background-color: #45a049;
+    }
+
+    .success-message {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .booking-form__back {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-right: 10px; /* Adjust as needed */
+}
+
+.booking-form__back:hover {
+  background-color: #999999;
+}
+
+  </style>
+</head>
+<body>
+<div class="booking-form">
+  <h1 class="booking-form__title">Appointment Booking Form</h1>
+  <form method="post" role="form" th:action="@{/appointment}" th:object="${appointment}">
+    <input type="text" name="name" placeholder="Full Name" class="booking-form__input" required/><br>
+    <input type="email" name="email" placeholder="Email Address" class="booking-form__input" required/><br>
+    <select name="service" class="booking-form__select" required>
+      <option value="" disabled selected>Select A Service</option>
+      <option value="Vehicle Wash   Amount=Rs.3500/=">Vehicle Wash - Rs.3500/=</option>
+      <option value="Interior and Exterior Detailing  Amount=Rs.6500/=">Interior and Exterior Detailing - Rs.6500/=</option>
+      <option value="Full Service  Amount=Rs.7000/=">Full Service - Rs.7000/=</option>
+      <option value="Hybrid services  Amount=Rs.7500/=">Hybrid services - Rs.7500/=</option>
+      <option value="Wheel Alignment  Amount=Rs.1500/=">Wheel Alignment - Rs.1500/=</option>
+    </select><br><br>
+    <input type="datetime-local" name="serviceDateTime" class="booking-form__input" required><br>
+    <input type="text" name="specialRequest" placeholder="Special Request" class="booking-form__input"/><br>
+    <input type="submit" value="Submit" class="booking-form__submit"/>
+    <a th:href="@{/home}" class="booking-form__back">Back</a>
+
+  </form>
+</div>
+
+<div th:if="${param.success}" class="success-message">
+  <p>Booking Successful!</p>
+</div>
+</body>
+</html>

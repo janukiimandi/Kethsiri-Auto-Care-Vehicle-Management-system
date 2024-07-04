@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 70%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .profile-info p {
+            margin: 10px 0;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="email"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button[type="submit"], button[type="button"] {
+            display: inline-block;
+            padding: 12px 24px;
+            margin-top: 20px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover, button[type="button"]:hover {
+            background-color: #0056b3;
+        }
+        /* Add this CSS to make the delete button red */
+        .delete-btn {
+            background-color: red; /* Red color */
+        }
+        /* Additional styling for a more charming interface */
+        .profile-info {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .form-actions {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>User Profile</h1>
+    <form th:action="@{/profile/update}" method="post">
+        <div class="profile-info">
+            <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+            <p><strong>Full Name:</strong> <input type="text" th:value="${user.fullname}" name="fullname"></p>
+            <p><strong>Email:</strong> <input type="email" th:value="${user.email}" name="email"></p>
+        </div>
+        <div class="form-actions">
+            <button type="submit" style="background-color: green;">Save Changes</button>
+            <button type="button" onclick="window.history.back();">Cancel</button>
+        </div>
+    </form>
+    <form th:action="@{/profile/delete}" method="post">
+        <button type="submit" onclick="return confirm('Are you sure you want to delete your profile?')" class="delete-btn" style="background-color: red;">Delete Profile</button>
+    </form>
+</div>
+</body>
+</html>
